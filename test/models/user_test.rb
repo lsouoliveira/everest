@@ -4,9 +4,6 @@ class UserTest < ActiveSupport::TestCase
   should validate_presence_of(:name)
   should validate_length_of(:name).is_at_least(5).is_at_most(128)
 
-  should validate_presence_of(:email)
-  should validate_length_of(:email).is_at_least(5).is_at_most(128)
-
   should validate_presence_of(:password)
   should validate_length_of(:password).is_at_least(10).is_at_most(72)
 
@@ -20,7 +17,6 @@ class UserTest < ActiveSupport::TestCase
     user = User.create(attributes)
     last_user = $user_repository.find_first_by_order_by_created_at_desc
 
-    assert user.valid?
     assert_equal user, last_user
   end
 
@@ -99,5 +95,70 @@ class UserTest < ActiveSupport::TestCase
 
     user.password = "password12%%aazz"
     assert_not user.valid?
+  end
+
+  test "validates email local part has at maximum 64 characters" do
+    user = User.new(
+      name: "John Doe",
+      email: "#{"a" * 64}@domain",
+      password: "password12%%AAzz"
+    )
+
+    assert user.valid?
+
+    user.email = "a" * 65 + "@domain"
+    assert_not user.valid?
+  end
+
+  test "validates email local part has at least 1 character" do
+    user = User.new(
+      name: "John Doe",
+      email: "local-part@domain",
+      password: "password12%%AAzz"
+    )
+
+    assert user.valid?
+
+    user.email = "@domain"
+    assert_not user.valid?
+  end
+
+  test "validates email domain has at maximum 128 characters" do
+    user = User.new(
+      name: "John Doe",
+      email: "local-part@#{"a" * 128}",
+      password: "password12%%AAzz"
+    )
+
+    assert user.valid?
+
+    user.email = "local-part@#{"a" * 129}"
+
+    assert_not user.valid?
+  end
+
+  test "validates email domain has at least 1 character" do
+    user = User.new(
+      name: "John Doe",
+      email: "local-part@domain",
+      password: "password12%%AAzz"
+    )
+
+    assert user.valid?
+
+    user.email = "local-part@"
+    assert_not user.valid?
+  end
+
+  test "validates email domain has only numbers, letters, dots and dashes" do
+    user = User.new(
+      name: "John Doe",
+      email: "local-part@domain",
+      password: "password12%%AAzz"
+    )
+
+    assert user.valid?
+
+    user.email = "_"
   end
 end

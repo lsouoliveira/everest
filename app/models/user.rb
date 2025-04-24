@@ -8,11 +8,8 @@ class User
   has_secure_password
 
   validates :name, presence: true, length: { minimum: 5, maximum: 128 }
-  validates :email, presence: true, length: { minimum: 5, maximum: 128 }
+  validates :email, presence: true, email: true
   validates :password, presence: true, length: { minimum: 10, maximum: 72 }, password: true
-
-  validate :email_format_is_valid
-  validate :password_meets_requirements, if: -> { password.present? }
 
   def self.create(attributes)
     user = new(created_at: Time.zone.now, **attributes)
@@ -20,14 +17,5 @@ class User
     $user_repository.save(user) if user.valid?
 
     user
-  end
-
-  private
-  def email_format_is_valid
-    # TODO
-  end
-
-  def password_meets_requirements
-    # TODO
   end
 end
