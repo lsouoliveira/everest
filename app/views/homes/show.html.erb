@@ -8,4 +8,7 @@
     <li><b>Region:</b> <%= @ipinfo&.region || "Unavailable" %></li>
     <li><b>Country:</b> <%= @ipinfo&.country || "Unavailable" %></li>
   </ul>
+
+
+  <%= button_to "Logout", class: "btn btn-dark", session_path, method: :delete %>
 </section>
