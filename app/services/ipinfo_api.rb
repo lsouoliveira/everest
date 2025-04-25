@@ -19,7 +19,7 @@ class IpinfoApi
     raise Error, "Failed to fetch IP info: #{e.message}"
   end
 
-  def with_defaults
+  def self.with_defaults
     new(token: ENV.fetch("IPINFO_TOKEN"))
   end
 

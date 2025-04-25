@@ -1,0 +1,11 @@
+<h1 class="h3">Welcome, <%= current_user.name %>!</h1>
+
+<section class="py-4">
+  <ul>
+    <li><b>Name:</b> <%= current_user.name %></li>
+    <li><b>Email:</b> <%= current_user.email %></li>
+    <li><b>City:</b> <%= @ipinfo&.city || "Unavailable" %></li>
+    <li><b>Region:</b> <%= @ipinfo&.region || "Unavailable" %></li>
+    <li><b>Country:</b> <%= @ipinfo&.country || "Unavailable" %></li>
+  </ul>
+</section>
