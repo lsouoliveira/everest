@@ -59,9 +59,3 @@ gem "factory_bot_rails", "~> 6.4"
 gem "shoulda", "~> 4.0"
 
 gem "faraday", "~> 2.13"
-
-gem "dartsass-rails", "~> 0.5.1"
-
-gem "autoprefixer-rails", "~> 10.4"
-
-gem 'bootstrap', '~> 5.3.3'

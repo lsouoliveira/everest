@@ -1,7 +1,10 @@
-<%= render partial: "layouts/navbar" %>
+<%= provide(:content) do %>
+  <%= render partial: "layouts/navbar" %>
 
-<main>
-  <%= yield %>
-</main>
+  <main>
+    <%= yield %>
+  </main>
+
+<% end %>
 
 <%= render template: "layouts/application" %>
