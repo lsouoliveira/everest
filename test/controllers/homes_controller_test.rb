@@ -1,7 +1,7 @@
 require "test_helper"
 
 class HomesControllerTest < ActionDispatch::IntegrationTest
-  test "show" do
+  test "returns a success response when user is logged in" do
     ipinfo = IpinfoApi::Info.new(
       ip: "127.0.0.1",
       hostname: "localhost",
@@ -26,5 +26,18 @@ class HomesControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_response :success
+  end
+
+  test "returns a success response when api fails" do
+    IpinfoApi.stub :with_defaults, -> { raise IpinfoApi::Error.new("API error") } do
+      user_attributes = attributes_for(:user)
+      user = User.create(user_attributes)
+
+      post session_path, params: { email: user.email, password: user_attributes[:password] }
+
+      get home_url
+
+      assert_response :success
+    end
   end
 end
