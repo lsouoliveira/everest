@@ -29,19 +29,39 @@
                     <%= f.error_message_for :email %>
                   </div>
 
-                  <div class="form-outline mb-4">
+                  <div class="form-outline mb-4" data-controller="password-validator">
                     <%= f.label :password, "Password" %>
-                    <%= f.password_field :password, placeholder: "••••••••••", required: true %>
+                    <%= f.password_field(
+                      :password, 
+                      placeholder: "••••••••••", 
+                      required: true, 
+                      data: { 
+                        password_validator_target: "password", 
+                        action: "input->password-validator#validatePassword" 
+                      }
+                    ) %>
                     <%= f.error_message_for :password %>
 
                     <div class="mt-2">
                       <div class="form-text">Requirements:</div>
-                      <ul class="form-text">
-                        <li>Minimum 10 characters</li>
-                        <li>At least two uppercase letters</li>
-                        <li>At least two lowercase letters</li>
-                        <li>At least two numbers</li>
-                        <li>At least two special character</li>
+                      <ul class="form-text px-0" data-password-validator-target="rulesContainer">
+                        <% [
+                          { text: "Minimum 10 characters", id: "min-length-10" },
+                          { text: "Maximum 72 characters", id: "max-length-72" },
+                          { text: "At least two uppercase letters", id: "two-uppercase" },
+                          { text: "At least two lowercase letters", id: "two-lowercase" },
+                          { text: "At least two numbers", id: "two-numbers" },
+                          { text: "At least two special characters", id: "two-special-characters" }
+                        ].each do |rule| %>
+                          <%= tag.li(id: rule[:id], class: "password-rule list-unstyled", data: { password_validator_target: "rule" }) do %>
+                            <span>
+                              <i class="bi bi-x-circle"></i>
+                            </span>
+                            <span>
+                              <%= rule[:text] %>
+                            </span>
+                          <% end %>
+                        <% end %>
                       </ul>
                     </div>
                   </div>
