@@ -13,4 +13,5 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   resources :sessions, only: %i[new create]
+  resources :registrations, only: %i[new create]
 end
