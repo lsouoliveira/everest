@@ -18,4 +18,16 @@ class User
 
     user
   end
+
+  def self.authenticate_by(attributes)
+    user = $user_repository.find_by_email(attributes[:email])
+
+    if user.authenticate(attributes[:password])
+      user
+    else
+      nil
+    end
+  rescue UserRepository::NotFound
+    nil
+  end
 end

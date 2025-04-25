@@ -161,4 +161,26 @@ class UserTest < ActiveSupport::TestCase
 
     user.email = "_"
   end
+
+  test "authenticate_by returns user when credentials are valid" do
+    user = User.create(attributes_for(:user, email: "local-part@domain", password: "password12%%AAzz"))
+
+    authenticated_user = User.authenticate_by(email: user.email, password: user.password)
+
+    assert_equal user, authenticated_user
+  end
+
+  test "authenticate_by returns nil when credentials are invalid" do
+    user = User.create(attributes_for(:user, email: "local-part@domain", password: "password12%%AAzz"))
+
+    authenticated_user = User.authenticate_by(email: user.email, password: "wrong_password")
+
+    assert_nil authenticated_user
+  end
+
+  test "authenticate_by returns nil when user is not found" do
+    authenticated_user = User.authenticate_by(email: "non_existent_user@domain", password: "password12%%AAzz")
+
+    assert_nil authenticated_user
+  end
 end
