@@ -7,9 +7,10 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "creates a new session" do
-    user = User.create(attributes_for(:user))
+    user_attributes = attributes_for(:user)
+    user = User.create(user_attributes)
 
-    post session_path, params: { email: user.email, password: user.password }
+    post session_path, params: { email: user.email, password: user_attributes[:password] }
 
     assert_redirected_to root_path
   end
