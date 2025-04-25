@@ -37,6 +37,8 @@ class CustomFormBuilder < ActionView::Helpers::FormBuilder
 
   private
   def error_for?(method)
+    return false if object.blank?
+
     object.errors[method].any?
   end
 end
