@@ -25,7 +25,16 @@
 
                   <div class="form-outline mb-4">
                     <%= f.label :email, "Email address"%>
-                    <%= f.email_field :email, placeholder: "local-part@domain", required: true %>
+                    <%= f.email_field(
+                      :email, 
+                      placeholder: "local-part@domain", 
+                      required: true, 
+                      data: { 
+                        controller: "email-validator", 
+                        action: "input->email-validator#validateEmail", 
+                        email_validator_target: "email" 
+                      }
+                    ) %>
                     <%= f.error_message_for :email %>
                   </div>
 
