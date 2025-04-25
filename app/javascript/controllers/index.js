@@ -12,3 +12,6 @@ application.register("password-validator", PasswordValidatorController)
 
 import EmailValidatorController from "./email_validator_controller"
 application.register("email-validator", EmailValidatorController)
+
+import RemoveTargetController from "./remove_target_controller"
+application.register("remove-target", RemoveTargetController)

@@ -23,32 +23,38 @@
                     <%= f.error_message_for :name %>
                   </div>
 
-                  <div class="form-outline mb-4">
+                  <div class="form-outline mb-4" data-controller="remove-target">
                     <%= f.label :email, "Email address"%>
                     <%= f.email_field(
                       :email, 
                       placeholder: "local-part@domain", 
                       required: true, 
                       data: { 
-                        controller: "email-validator", 
-                        action: "input->email-validator#validateEmail", 
+                        controller: "email-validator",
+                        action: [
+                          "input->email-validator#validateEmail", 
+                          "input->remove-target#remove"
+                        ].join(" "),
                         email_validator_target: "email" 
                       }
                     ) %>
-                    <%= f.error_message_for :email %>
+                    <%= f.error_message_for :email, data: { remove_target_target: "target" } %>
                   </div>
 
-                  <div class="form-outline mb-4" data-controller="password-validator">
+                  <div class="form-outline mb-4" data-controller="password-validator remove-target">
                     <%= f.label :password, "Password" %>
                     <%= f.password_field(
                       :password, 
                       required: true, 
                       data: { 
                         password_validator_target: "password", 
-                        action: "input->password-validator#validatePassword" 
+                        action: [
+                          "input->password-validator#validatePassword",
+                          "input->remove-target#remove"
+                        ].join(" ")
                       }
                     ) %>
-                    <%= f.error_message_for :password %>
+                    <%= f.error_message_for :password, data: { remove_target_target: "target" } %>
 
                     <div class="mt-2">
                       <div class="form-text">Requirements:</div>

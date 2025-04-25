@@ -27,9 +27,9 @@ class CustomFormBuilder < ActionView::Helpers::FormBuilder
     super(value, options)
   end
 
-  def error_message_for(method)
+  def error_message_for(method, **options)
     if object.errors[method].any?
-      @template.tag.div(class: "alert alert-danger mt-2") do
+      @template.tag.div(class: "alert alert-danger mt-2", **options) do
         object.errors.full_messages_for(method).to_sentence
       end
     end
