@@ -46,3 +46,4 @@ en:
               local_part_invalid: "local part of the email contains invalid characters"
               domain_too_long: "domain part of the email is too long (maximum is 128 characters)"
               domain_invalid: "domain part of the email contains invalid characters"
+              taken: "has already been taken"
