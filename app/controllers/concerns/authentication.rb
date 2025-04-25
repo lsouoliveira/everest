@@ -17,11 +17,11 @@ module Authentication
   end
 
   def start_new_session_for(user)
-    session[:user_email] = user.email
+    session[:user_id] = user.email
   end
 
   def terminate_session
-    session.delete(:user_email)
+    session.delete(:user_id)
   end
 
   def after_authentication_url
@@ -29,9 +29,9 @@ module Authentication
   end
 
   def current_user
-    return if session[:user_email].blank?
+    return if session[:user_id].blank?
 
-    @_current_user ||= $user_repository.find_by_id(session[:user_email])
+    @_current_user ||= $user_repository.find_by_id(session[:user_id])
   rescue UserRepository::NotFound
     nil
   end

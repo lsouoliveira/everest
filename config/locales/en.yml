@@ -31,3 +31,18 @@ en:
   sessions:
     create:
       error: "Invalid email or password"
+  activemodel:
+    errors:
+      models:
+        user:
+          attributes:
+            password:
+              password_must_include_two_special_characters: "must include at least two special characters"
+              password_must_include_two_digits: "must include at least two digits"
+              password_must_include_two_uppercase_letters: "must include at least two uppercase letters"
+              password_must_include_two_lowercase_letters: "must include at least two lowercase letters"
+            email:
+              local_part_too_long: "local part of the email is too long (maximum is 64 characters)"
+              local_part_invalid: "local part of the email contains invalid characters"
+              domain_too_long: "domain part of the email is too long (maximum is 128 characters)"
+              domain_invalid: "domain part of the email contains invalid characters"

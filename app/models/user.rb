@@ -3,7 +3,7 @@ class User
   include ActiveModel::Validations
   include ActiveModel::SecurePassword
 
-  attr_accessor :name, :email, :created_at, :password_digest
+  attr_accessor :id, :name, :email, :created_at, :password_digest
 
   has_secure_password
 
@@ -11,8 +11,10 @@ class User
   validates :email, presence: true, email: true
   validates :password, presence: true, length: { minimum: 10, maximum: 72 }, password: true
 
+  validate :email_is_unique
+
   def self.create(attributes)
-    user = new(created_at: Time.zone.now, **attributes)
+    user = new(id: SecureRandom.uuid, created_at: Time.zone.now, **attributes)
 
     $user_repository.save(user) if user.valid?
 
@@ -29,5 +31,15 @@ class User
     end
   rescue UserRepository::NotFound
     nil
+  end
+
+  private
+  def email_is_unique
+    user = $user_repository.find_by_email(email)
+
+    if user.id != id
+      errors.add(:email, :taken)
+    end
+  rescue UserRepository::NotFound
   end
 end

@@ -4,11 +4,18 @@ class InMemoryUserRepository < UserRepository
   end
 
   def save(user)
-    @users[user.email] = user
+    @users[user.id] = user
+  end
+
+  def find_by_id(id)
+    user = @users[id]
+    raise NotFound, "User with id #{id} not found" unless user
+
+    user
   end
 
   def find_by_email(email)
-    user = @users[email]
+    user = @users.values.find { |u| u.email == email }
     raise NotFound, "User with email #{email} not found" unless user
 
     user
@@ -20,5 +27,9 @@ class InMemoryUserRepository < UserRepository
 
   def count
     @users.size
+  end
+
+  def clear
+    @users.clear
   end
 end

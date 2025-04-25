@@ -162,6 +162,14 @@ class UserTest < ActiveSupport::TestCase
     user.email = "_"
   end
 
+  test "validates email is unique" do
+    user = User.create(attributes_for(:user, email: "local-part@domain"))
+    user2 = User.new(attributes_for(:user, email: user.email))
+
+    assert user.valid?
+    assert_not user2.valid?
+  end
+
   test "authenticate_by returns user when credentials are valid" do
     user = User.create(attributes_for(:user, email: "local-part@domain", password: "password12%%AAzz"))
 

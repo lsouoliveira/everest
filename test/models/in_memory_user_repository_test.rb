@@ -3,7 +3,7 @@ require "test_helper"
 class InMemoryUserRepositoryTest < ActiveSupport::TestCase
   test "returns the user count" do
     users = {
-      "local-part@domain" => build(:user, email: "local-part@domain")
+      "1234" => build(:user, id: "1234", email: "local-part@domain")
     }
 
     user_repository = InMemoryUserRepository.new(users)
@@ -21,9 +21,20 @@ class InMemoryUserRepositoryTest < ActiveSupport::TestCase
     end
   end
 
+  test "finds a user by id" do
+    user = build(:user, id: "1234", email: "local-part@domain")
+    users = { "1234" => user }
+
+    user_repository = InMemoryUserRepository.new(users)
+
+    found_user = user_repository.find_by_id(user.id)
+
+    assert_equal user, found_user
+  end
+
   test "finds a user by email" do
-    user = build(:user, email: "local-part@domain")
-    users = { user.email => user }
+    user = build(:user, id: "1234", email: "local-part@domain")
+    users = { "1234" => user }
 
     user_repository = InMemoryUserRepository.new(users)
 
@@ -33,8 +44,8 @@ class InMemoryUserRepositoryTest < ActiveSupport::TestCase
   end
 
   test "raises an error when user not found" do
-    user = build(:user, email: "local-part@domain")
-    users = { user.email => user }
+    user = build(:user, id: "1234", email: "local-part@domain")
+    users = { "1234" => user }
 
     user_repository = InMemoryUserRepository.new(users)
 
@@ -44,14 +55,24 @@ class InMemoryUserRepositoryTest < ActiveSupport::TestCase
   end
 
   test "finds the first user ordered by created_at desc" do
-    user1 = build(:user, created_at: 2.days.ago)
-    user2 = build(:user, created_at: 1.day.ago)
-    users = { user1.email => user1, user2.email => user2 }
+    user1 = build(:user, id: "1234", created_at: 2.days.ago)
+    user2 = build(:user, id: "12345", created_at: 1.day.ago)
+    users = { "1234" => user1, "12345" => user2 }
 
     user_repository = InMemoryUserRepository.new(users)
 
     last_user = user_repository.find_first_by_order_by_created_at_desc
 
     assert_equal user2, last_user
+  end
+
+  test "clears all users" do
+    user1 = build(:user, id: "1234", email: "local-part@domain")
+    user2 = build(:user, id: "12345", email: "local-part2@domain")
+    users = { "1234" => user1, "12345" => user2 }
+    user_repository = InMemoryUserRepository.new(users)
+    assert_equal 2, user_repository.count
+    user_repository.clear
+    assert_equal 0, user_repository.count
   end
 end

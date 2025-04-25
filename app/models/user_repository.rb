@@ -6,6 +6,10 @@ class UserRepository
     raise NotImplementedError
   end
 
+  def find_by_id(id)
+    raise NotImplementedError
+  end
+
   def find_by_email(email)
     raise NotImplementedError
   end
@@ -15,6 +19,10 @@ class UserRepository
   end
 
   def count
+    raise NotImplementedError
+  end
+
+  def clear
     raise NotImplementedError
   end
 end

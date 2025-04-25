@@ -10,7 +10,7 @@
             <div class="col-md-6 col-lg-7 d-flex align-items-center">
               <div class="card-body p-4 p-lg-5 text-black">
 
-                <%= form_with url: "#" do |f| %>
+                <%= form_with url: registrations_path, model: @user do |f| %>
                   <div class="d-flex align-items-center mb-3 pb-1">
                     <span class="h1 fw-bold mb-0">Everest</span>
                   </div>
@@ -19,17 +19,20 @@
 
                   <div class="form-outline mb-4">
                     <%= f.label :name, "Name"%>
-                    <%= f.email_field :name, placeholder: "John Doe", required: true %>
+                    <%= f.text_field :name, placeholder: "John Doe", required: true %>
+                    <%= f.error_message_for :name %>
                   </div>
 
                   <div class="form-outline mb-4">
                     <%= f.label :email, "Email address"%>
-                    <%= f.email_field :email, placeholder: "mail@example.com", required: true %>
+                    <%= f.email_field :email, placeholder: "local-part@domain", required: true %>
+                    <%= f.error_message_for :email %>
                   </div>
 
                   <div class="form-outline mb-4">
                     <%= f.label :password, "Password" %>
                     <%= f.password_field :password, placeholder: "••••••••••", required: true %>
+                    <%= f.error_message_for :password %>
 
                     <div class="mt-2">
                       <div class="form-text">Requirements:</div>
