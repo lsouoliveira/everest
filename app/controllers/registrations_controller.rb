@@ -8,8 +8,6 @@ class RegistrationsController < ApplicationController
   def create
     @user = User.create(user_params)
 
-    puts @user.errors.inspect
-
     if @user.valid?
       redirect_to new_session_path
     else

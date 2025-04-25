@@ -8,16 +8,13 @@ module Authentication
   private
   def require_authentication
     return if current_user
-    puts "User not authenticated. Redirecting to login page."
-    # Store the URL the user was trying to access
-    puts "Storing return URL: #{request.url}"
 
     session[:return_to_after_authentication] = request.url
     redirect_to new_session_path
   end
 
   def start_new_session_for(user)
-    session[:user_id] = user.email
+    session[:user_id] = user.id
   end
 
   def terminate_session
