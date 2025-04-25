@@ -66,4 +66,15 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :unprocessable_entity
   end
+
+  test "redirects to new session when user is authenticated" do
+    user_attributes = attributes_for(:user)
+    user = User.create(user_attributes)
+
+    post session_path, params: { email: user.email, password: user_attributes[:password] }
+
+    get new_registration_path
+
+    assert_redirected_to home_path
+  end
 end

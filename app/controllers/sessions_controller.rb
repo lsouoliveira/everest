@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
   skip_before_action :require_authentication, only: [ :new, :create ]
+  before_action :redirect_if_authenticated, only: [ :new, :create ]
 
   def new; end
 

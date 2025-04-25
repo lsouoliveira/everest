@@ -22,7 +22,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "redirects to new session when user is not authenticated" do
-    get root_url
+    get home_path
 
     assert_redirected_to new_session_path
   end
@@ -30,7 +30,29 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   test "redirects to the original URL after authentication" do
     User.create(attributes_for(:user))
 
+    get home_path
+
+    assert_redirected_to new_session_path
+  end
+
+  test "redirects to the home page when user is authenticated" do
+    user_attributes = attributes_for(:user)
+    user = User.create(user_attributes)
+
+    post session_path, params: { email: user.email, password: user_attributes[:password] }
+
     get root_url
+
+    assert_redirected_to home_path
+  end
+
+  test "destroy" do
+    user_attributes = attributes_for(:user)
+    user = User.create(user_attributes)
+
+    post session_path, params: { email: user.email, password: user_attributes[:password] }
+
+    delete session_path
 
     assert_redirected_to new_session_path
   end

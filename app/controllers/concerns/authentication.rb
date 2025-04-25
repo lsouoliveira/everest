@@ -14,6 +14,12 @@ module Authentication
     redirect_to new_session_path
   end
 
+  def redirect_if_authenticated
+    return unless current_user
+
+    redirect_to home_path
+  end
+
   def start_new_session_for(user)
     session[:user_id] = user.id
   end
