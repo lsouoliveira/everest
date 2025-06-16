@@ -56,7 +56,7 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "factory_bot_rails", "~> 6.4"
+gem "factory_bot_rails", "~> 6.5"
 
 gem "shoulda", "~> 4.0"
 
